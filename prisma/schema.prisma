@@ -22,24 +22,23 @@ model user {
   comments     comments[]
   reports      reports[]
   survey       survey?
+  posts        posts[]      
 }
 
 model animals {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  names         String
   age           Float
   size          Float
   training      Float
   specie        String
   breed         String
-  color         String 
+  color         String? 
   temperament   Float 
   maintenance   Float  
   timeNeeded    Float  
   space_Needed  Float
   weather       Float
   total_plus    Float
-
   posts        posts?
 }
 
@@ -78,19 +77,20 @@ model reports {
 }
 
 model posts {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  adopted     Boolean @default(false)
-  description String
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  adopted     Boolean     @default(false)
+  description String      
   active      Boolean
-  craetedAt   Boolean
-  urlImagen   String?
-  animalId    String? @unique @db.ObjectId
-  userEmail   String? @db.String @map("_userEmail")
-
-  animal       animals?       @relation(fields: [animalId], references: [id])
-  reports      reports[]
+  craetedAt   DateTime
+  urlImage   String?
+  animalId    String?     @unique @db.ObjectId
+  userEmail   String      @db.String @map("_userEmail") // Hacer obligatorio
+  user        user        @relation(fields: [userEmail], references: [email])
+  animal      animals?    @relation(fields: [animalId], references: [id])
+  reports     reports[]
   deletedPosts deletedPosts[]
 }
+
 
 model deletedPosts {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId

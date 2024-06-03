@@ -15,7 +15,6 @@ export default function LoginForm() {
 
   
   const [name, setName] = useState("");
-  const [isAdmin, setIsAdmin] = useState(true);
   const [password, setPassword] = useState("");
 
   const {
@@ -33,7 +32,7 @@ export default function LoginForm() {
       const response = await signIn("credentials", {
         name: data.name,
         password: data.password,
-        callbackUrl: "http://localhost:3000/user/PrincipalPage"
+        callbackUrl: "/user/PrincipalPage"
       });
       if (response && response.error) {
         setError(response.error);

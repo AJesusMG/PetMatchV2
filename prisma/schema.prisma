@@ -121,7 +121,7 @@ model survey {
   R_cost        Float
   R_time        Float
   R_training    Float
-  R_total_plus  Float
+  total_plus  Float
 
   userEmail String? @unique @db.String
   user   user?   @relation(fields: [userEmail], references: [email])

@@ -12,7 +12,7 @@ import { costAnimals } from "@/data/costAnimals";
 import { timeAnimals } from "@/data/timeAnimals";
 import { Weather } from "@/data/weather";
 import { sizeHome } from "@/data/sizeHome";
-import { set } from "zod";
+
 
 
 export default function QuestionaireForm({ setFormValues }: { setFormValues: (values: any) => void }) {
@@ -29,16 +29,11 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
   const [weather, setWeather] = React.useState<Selection>(new Set([]));
   const [sizeH, setSizeH] = React.useState<Selection>(new Set([]));
 
-
-
-
   const handleSelectionChange = (selectedKeys: Selection) => {
     setValues(selectedKeys);
   };
-  
 
   React.useEffect(() => {
-
     const selectedTypes = Array.from(values);
     let updatedBreeds: { label: string; value: number; colores: string[] }[] = [];
 
@@ -58,8 +53,8 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
     setBreeds(updatedBreeds);
   }, [values]);
 
+  React.useEffect(() => {
 
-  React.useEffect(() => {22
     // Recopilar razas seleccionadas
     const selected = breeds.filter((breed) => selectedBreeds.includes(breed.label));
 
@@ -71,12 +66,26 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
     setColors(colors);
   }, [selectedBreeds]);
 
-
   const handleBreedsChange = (selectedKeys: Selection) => {
     setSelectedBreeds(Array.from(selectedKeys) as string[]);
   };
 
   React.useEffect(() => {
+    const sumFloatValues = () => {
+      const floatValues = [
+        ...Array.from(size).map(Number),
+        ...Array.from(age).map(Number),
+        ...Array.from(training).map(Number),
+        ...Array.from(temperament).map(Number),
+        ...Array.from(cost).map(Number),
+        ...Array.from(time).map(Number),
+        ...Array.from(weather).map(Number),
+        ...Array.from(sizeH).map(Number),
+      ];
+      const R_total_plus = floatValues.reduce((sum, value) => sum + value, 0);
+      return R_total_plus;
+    };
+
     setFormValues({
       R_species: Array.from(values),
       R_breed: selectedBreeds,
@@ -88,7 +97,8 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
       R_cost: Array.from(cost),
       R_time: Array.from(time),
       R_weather: Array.from(weather),
-      R_space : Array.from(sizeH)
+      R_space: Array.from(sizeH),
+      R_total_plus: sumFloatValues(),
     });
   }, [
     values,
@@ -101,7 +111,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
     cost,
     time,
     weather,
-    sizeH
+    sizeH,
   ]);
 
 
@@ -162,7 +172,6 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
             <Select
               items={sizeAnimals}
               label="Tamaño"
-              selectionMode="multiple"
               placeholder="Select an animal"
               selectedKeys={size}
               className="m-4"
@@ -180,7 +189,6 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
             <Select
               items={ageAnimals}
               label="Edad"
-              selectionMode="multiple"
               placeholder="Select an animal"
               selectedKeys={age}
               className="m-4"
@@ -217,7 +225,6 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
             <Select
               items={temperAnimals}
               label="Temperamento"
-              selectionMode="multiple"
               placeholder="Select an animal"
               selectedKeys={temperament}
               className="m-4"
@@ -236,7 +243,6 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
             <Select
               items={costAnimals}
               label="Nivel de mantenimiento"
-              selectionMode="multiple"
               placeholder="Select an animal"
               selectedKeys={cost}
               className="m-4"

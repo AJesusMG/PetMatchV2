@@ -10,7 +10,6 @@ export default function Questionaire() {
   const { data: session } = useSession();
   const [formValues, setFormValues] = useState({});
 
-  console.log("Sesión:", session);
 
   const handleSubmit = async () => {
     // Agrega la propiedad email a formValues

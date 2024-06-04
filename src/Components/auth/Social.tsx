@@ -5,12 +5,13 @@ import { signIn, useSession } from 'next-auth/react';
 
 export const Social = () => {
     const { data: session } = useSession();
-    const router = useRouter();
 
 
     const handleGoogleSignIn = async () => {
         await signIn('google', {callbackUrl: "http://localhost:3000/user/PrincipalPage"});
     };
+
+    
 
     return (
         <div className="flex items-center w-full gap-x-2">

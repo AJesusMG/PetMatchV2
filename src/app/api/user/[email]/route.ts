@@ -1,7 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
 import  db from "@/libs/db";
 
+<<<<<<< HEAD
 export async function POST(request : NextRequest, { params } : { params : { email : string } }) {
+=======
+export async function PATCH(request : NextRequest, { params } : { params : { email : string } }) {
+>>>>>>> a284e51 (Questionnaire connect (#37))
     const email = params.email;
     interface ReqBody { name : string, email : string, phoneNumber : string, instagramUrl : string, facebookURL : string }
 
@@ -16,6 +20,7 @@ export async function POST(request : NextRequest, { params } : { params : { emai
         });
     }
 
+<<<<<<< HEAD
     if(data.name === "" || data.email === "" || data.phoneNumber === "" || data.instagramUrl === "" || data.facebookURL === "") {
         return NextResponse.json({
             message: "Missing fields",
@@ -24,6 +29,8 @@ export async function POST(request : NextRequest, { params } : { params : { emai
         });
     }
 
+=======
+>>>>>>> a284e51 (Questionnaire connect (#37))
         const user = await db.user.findFirst({
             where: {
                 email: String(email),
@@ -45,6 +52,7 @@ export async function POST(request : NextRequest, { params } : { params : { emai
                 }
             )
         }
+<<<<<<< HEAD
         if(!user){
             const userCreated = await db.user.create({
                 data: {
@@ -56,6 +64,8 @@ export async function POST(request : NextRequest, { params } : { params : { emai
                 },
             });
         }
+=======
+>>>>>>> a284e51 (Questionnaire connect (#37))
 
     }catch(error) {
         return NextResponse.json({

@@ -1,10 +1,11 @@
 "use client"
-import React from "react";
+import React, { useEffect} from "react";
 import { Button, Link } from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
 import { useSession } from "next-auth/react";
 
 const PostProps = [
+
   {
     id: 1,
     image: "https://nextui.org/images/hero-card.jpeg",
@@ -101,7 +102,45 @@ const PostProps = [
 export default function PrincipalPage() {
 
   const { data: session } = useSession();
-  console.log(session);
+  const email = session?.user?.email;
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const response = await fetch(`/api/user/${email}`);
+        if (!response.ok) {
+          const requestBody = {
+            name: session?.user?.name,
+            email: session?.user?.email,
+            password: "",
+          };
+
+
+          const registerResponse = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+          });
+
+          console.log('Register Response:', registerResponse);
+
+          if (!registerResponse.ok) {
+            throw new Error('Error al registrar el usuario');
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    if (session) {
+      checkUser();
+    }
+  }, [session]);
+
+  
 
   return (
     <div className="flex flex-col gap-16 w-full h-full">

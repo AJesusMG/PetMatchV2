@@ -16,6 +16,8 @@ interface UserData {
 export default function UserSettings() {
   const { data: session } = useSession();
 
+  const email = session?.user?.email;
+
   const [userData, setUserData] = useState<UserData>({
     Name: session?.user?.name || "Sin nombre",
     email: session?.user?.email || "Sin correo",
@@ -47,8 +49,8 @@ export default function UserSettings() {
 
   const handleSaveChanges = async () => {
     try {
-      const response = await fetch("/api/update-user", {
-        method: "POST",
+      const response = await fetch(`/api/user/`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json"
         },

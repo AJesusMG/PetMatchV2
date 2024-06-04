@@ -32,6 +32,8 @@ export const authOptions: NextAuthOptions = {
 
         if (!userFound) throw new Error("No user found");
 
+        if (userFound.password === null) throw new Error("User password is null");
+
         const matchPassword = await bcrypt.compare(
           credentials.password,
           userFound.password
